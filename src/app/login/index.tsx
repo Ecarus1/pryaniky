@@ -1,31 +1,21 @@
-import {useStore} from "react-redux";
-import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useStore, shallowEqual} from "react-redux";
 
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hook";
 import FormLogin from "../../components/form-login";
-import authActions from "../../store/auth/actions";
+import { fetchAuth } from "../../storeRedux/auth/thunk";
 
-import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../store/interface";
-import Services from "../../services";
-import {AnyAction} from "redux";
-import { AuthAction } from "../../store/auth/actions";
-import { AuthActions } from "../../store/auth/actions";
-
-
-
-export type AppDispatch = ThunkDispatch<RootState, Services, AnyAction>;
 
 function Login() {
-  const store = useStore();
-  // store.dispatch(actions.load)
+  // const store = useStore();
+  const dispatch = useAppDispatch();
 
-  const select = useTypedSelector(state => ({
-    JWT: state.auth.token,
-  }));
+  const select = useAppSelector(state => ({
+    token: state.auth.token,
+    waiting: state.auth.waiting
+  }), shallowEqual);
 
   const authSystemUser = (user: any) => {
-    console.log();
-    store.dispatch(authActions.load(user))
+    dispatch(fetchAuth({user}));
   }
 
   return (

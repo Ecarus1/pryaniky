@@ -32,12 +32,24 @@ class ApiService {
    */
   public async request({url, method = 'GET', headers = {}, ...options}: ApiServiceRequest) {
     if (!url.match(/^(http|\/\/)/)) url = this.config.baseUrl + url;
-    const res = await fetch(url, {
-      method,
-      headers: {...this.defaultHeaders, ...headers},
-      ...options,
-    });
-    return res.json();
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: {...this.defaultHeaders, ...headers},
+        ...options,
+      });
+
+      if(!res.ok) {
+        throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      return data;
+    } catch (err) {
+      throw err;
+    }
   }
 
   /**

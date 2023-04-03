@@ -1,4 +1,4 @@
-import {PayloadAction, createSlice} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { fetchAuth } from "./thunk";
 
 interface AuthState {
@@ -14,20 +14,26 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    authRemind: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchAuth.pending, (state) => {
-        console.log('loading')
+        state.waiting = true;
       })
       .addCase(fetchAuth.fulfilled, (state, action) => {
-        console.log('fulfilled', action)
+        state.token = action.payload.data.token;
+        state.waiting = false;
       })
-      .addCase(fetchAuth.rejected, (state, action) => {
-        console.log('rejected', action)
+      .addCase(fetchAuth.rejected, (state) => {
+        state.token = '';
+        state.waiting = false;
       })
   },
 });
 
-// export const {addNumber} = authSlice.actions;
+export const {authRemind} = authSlice.actions;
 export default authSlice.reducer;

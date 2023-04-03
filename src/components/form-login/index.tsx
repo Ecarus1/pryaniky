@@ -20,7 +20,8 @@ function FormLogin({authSystemUser}: IFormLogin) {
     }));
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     authSystemUser(value);
   }
 

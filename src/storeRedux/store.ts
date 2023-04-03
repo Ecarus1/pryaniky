@@ -1,13 +1,27 @@
 import { configureStore } from '@reduxjs/toolkit'
+
+import Services from '../services';
 import authReducer from "./auth";
+import config from '../config';
 // ...
+
+const services = new Services(config);
 
 
 const store = configureStore({
   reducer: {
     auth: authReducer
-  }
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(
+    { 
+      thunk: { 
+        extraArgument: services 
+      } 
+    }
+  )
 })
+
+export default store;
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
