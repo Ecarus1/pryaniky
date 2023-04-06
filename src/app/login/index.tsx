@@ -1,8 +1,9 @@
-import { useStore, shallowEqual} from "react-redux";
+import { shallowEqual } from "react-redux";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hook";
 import FormLogin from "../../components/form-login";
 import { fetchAuth } from "../../storeRedux/auth/thunk";
+import { IUser } from "../../interface";
 
 
 function Login() {
@@ -11,15 +12,16 @@ function Login() {
 
   const select = useAppSelector(state => ({
     token: state.auth.token,
-    waiting: state.auth.waiting
+    waiting: state.auth.waiting,
+    errorMsg: state.auth.errorMsg
   }), shallowEqual);
 
-  const authSystemUser = (user: any) => {
+  const authSystemUser = (user: IUser) => {
     dispatch(fetchAuth({user}));
   }
 
   return (
-    <FormLogin authSystemUser={authSystemUser}/>
+    <FormLogin authSystemUser={authSystemUser} errorMsg={select.errorMsg}/>
   );
 }
 

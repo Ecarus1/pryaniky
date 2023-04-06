@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import Services from '../services';
 import authReducer from "./auth";
+import tableDataReducer from "./table-data";
 import config from '../config';
 // ...
 
@@ -10,7 +11,8 @@ const services = new Services(config);
 
 const store = configureStore({
   reducer: {
-    auth: authReducer
+    auth: authReducer,
+    tableData: tableDataReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(
     { 

@@ -48,7 +48,7 @@ class ApiService {
 
       return data;
     } catch (err) {
-      throw err;
+      return err;
     }
   }
 
@@ -57,7 +57,7 @@ class ApiService {
    * @param name {String} Название заголвока
    * @param value {String|null} Значение загововка
    */
-  public setHeader(name: string, value = null) {
+  public setHeader(name: string, value = '') {
     if (value) {
       this.defaultHeaders[name] = value;
     } else if (this.defaultHeaders[name]) {
