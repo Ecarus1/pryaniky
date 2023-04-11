@@ -8,6 +8,7 @@ import {BrowserRouter} from "react-router-dom";
 // import config from './config';
 import store from './storeRedux/store';
 import {Provider} from "react-redux";
+import { Toaster } from 'react-hot-toast';
 
 // Менеджер сервисов
 // const services = new Services(config);
@@ -20,6 +21,7 @@ root.render(
   <Provider store={store}>
     <BrowserRouter>
       <App/>
+      <Toaster/>
     </BrowserRouter>
   </Provider>
 );

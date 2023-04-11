@@ -1,15 +1,19 @@
 import { createSlice} from "@reduxjs/toolkit";
-import { fetchGetData } from "./thunk";
+import { fetchGetData, fetchSetData } from "./thunk";
+
+type ToastType = "pending" | "failed" | "succeeded";
 
 interface TableDataState {
   data: any[];
   waiting: boolean;
+  status: ToastType,
   errorMsg: string;
 }
 
 const initialState: TableDataState = {
   data: [],
   waiting: false,
+  status: 'pending',
   errorMsg: ''
 }
 
@@ -30,6 +34,18 @@ const tableDataSlice = createSlice({
     })
     .addCase(fetchGetData.rejected, (state, action) => {
       state.waiting = false;
+      state.errorMsg = action.payload || '';
+    })
+
+    .addCase(fetchSetData.pending, (state) => {
+      state.status = "pending";
+      state.errorMsg = ''
+    })
+    .addCase(fetchSetData.fulfilled, (state, action) => {
+      state.status = "succeeded";
+    })
+    .addCase(fetchSetData.rejected, (state, action) => {
+      state.status = "failed";
       state.errorMsg = action.payload || '';
     })
   },

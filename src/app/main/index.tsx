@@ -14,10 +14,10 @@ function Main() {
   }, []);
 
   return (
-    <Container maxWidth="lg">
+    <>
       <TopContainer/>
       <MainContent/>
-    </Container>
+    </>
   );
 }
 

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import moment from "moment";
+import dayjs from 'dayjs';
 
 import { Delete, Edit } from "@mui/icons-material";
 import { IconButton, TableCell, TableRow } from "@mui/material";
+import EditableRow from "../editable-row";
 
 import { FetchTableData } from "../../../interface";
 
@@ -26,15 +28,14 @@ function TableData({rows, onUpdate, onDelete, onAdd}: ITableData) {
   };
 
   const fomatDate = (date: string) => {
-    return date ? moment(date).format('DD.MM.YYYY в HH:mm:ss') : "-"
+    return dayjs(date).format('MM-DD-YYYY в HH:mm');
   }
 
   return (
     <>
       {rows.map(row =>
         editRowId === row.id ? (
-          // <EditableRow key={row.id} row={row} onSave={onSave} onCancel={onCancel} /> 
-          null
+          <EditableRow key={row.id} row={row} onSave={onSave} onCancel={onCancel} /> 
         ) : (
           <TableRow key={row.id}>
             <TableCell>{fomatDate(row.companySigDate)}</TableCell>

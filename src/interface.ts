@@ -56,7 +56,8 @@ export interface FetchTableData {
   employeeNumber: string;
   employeeSigDate: string;
   employeeSignatureName: string;
-  id: string
+  id: string;
+  [key: string]: unknown;
 }
 
 export interface IUser {
